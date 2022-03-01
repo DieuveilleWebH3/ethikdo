@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="author" content="Dieuveille BOUSSA ELLENGA">
+    <meta content="Ethikdo App by Dieuveille BOUSSA ELLENGA" name="description"/>
+    <title>{% block title %}{% endblock %}    |   Ethikdo</title>
+
+    <!-- Favicon icon -->
+	<!-- <link rel="icon" type="image/x-icon" sizes="16x16" href="{% static 'assets/images/favicon_4IN_32.ico' %}"> -->
+	<link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/images/4IN_favicon.png' %}">
+
+	<link href="{% static 'assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+	<link href="{% static 'assets/fontawesome5_15_4/css/all.css' %}" rel="stylesheet"> <!--load all font awesome styles -->
+
+	
+    <style>
+        .invalid { border-color: red; }
+        #error { color: red }
+    </style>
+        
+    {% block head_css %}
+    {% endblock %}
+
+    {% block head_javascript %}
+    {% endblock %}
+</head>
+
+<body>
+
+    <!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+        <div class="sk-three-bounce">
+            <div class="sk-child sk-bounce1"></div>
+            <div class="sk-child sk-bounce2"></div>
+            <div class="sk-child sk-bounce3"></div>
+        </div>
+    </div>
+    <!--*******************
+        Preloader end
+    ********************-->
+
+
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        <div class="nav-header">
+            <a href="#" class="brand-logo">
+
+				<!-- <img class="logo-abbr" src="{% static 'assets/images/logo_tab.png' %}" alt=""> -->
+				<img class="brand-title" src="{% static 'assets/images/fichier6.svg' %}" alt="">
+
+				<!-- 
+                <img class="logo-abbr" src="{% static 'assets/images/logo_tab.png' %}" alt="">
+                <img class="brand-title" src="{% static 'assets/images/4in_logo_text.png' %}" alt="">
+				-->
+            </a>
+
+            <div class="nav-control">
+                <div class="hamburger">
+                    <span class="line"></span><span class="line"></span><span class="line"></span>
+                </div>
+            </div>
+        </div>
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+
+		
+		
+        <!--**********************************
+            Header start
+        ***********************************-->
+        <div class="header">
+            <div class="header-content">
+                <nav class="navbar navbar-expand">
+                    <div class="collapse navbar-collapse justify-content-between">
+                        <div class="header-left">
+                            <div class="dashboard_bar">
+								Tab
+                            </div>
+                        </div>
+                        <ul class="navbar-nav header-right">
+							<li class="nav-item">
+								<div class="input-group search-area d-xl-inline-flex d-none">
+									<div class="input-group-append">
+										<span class="input-group-text"><a href="javascript:void(0)"><i class="flaticon-381-search-2"></i></a></span>
+									</div>
+									<input type="text" class="form-control" placeholder="Search here...">
+								</div>
+							</li>
+
+							
+                            <li class="nav-item dropdown header-profile">
+                                <a class="nav-link" href="javascript:void(0)" role="button" data-toggle="dropdown">
+									{% if user.photo %} 
+										<img src="{{ user.photo.url }}" alt="{{ user.username }}" width="20"/> 
+									{% else %}
+										<img src="{% static 'assets/images/profile/17.jpg' %}" alt="{{ user.username }}" width="20"/>
+									{% endif %}
+									<div class="header-info">
+										<span class="text-black"><strong>
+											{% if user.first_name and user.last_name %} {{ user.first_name.capitalize }} {{ user.last_name.capitalize }} {% else%} {{ user.username }} {% endif %}</strong></span>
+									</div>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a href="{% url 'profile' %}" class="dropdown-item ai-icon">
+                                        <svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" class="text-primary" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                        <span class="ml-2">Profile {% if user.photo %} {% endif %} </span>
+                                    </a>
+                                    <a href="#" class="dropdown-item ai-icon">
+                                        <svg id="icon-inbox" xmlns="http://www.w3.org/2000/svg" class="text-success" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                                        <span class="ml-2">Inbox </span>
+                                    </a>
+                                    <a href="{% url 'logout' %}" class="dropdown-item ai-icon">
+                                        <svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" class="text-danger" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                                        <span class="ml-2">Logout </span>
+                                    </a>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+        <!--**********************************
+            Sidebar start
+        ***********************************-->
+        <div class="deznav">
+            <div class="deznav-scroll">
+				<ul class="metismenu" id="menu">
+                    <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+							<i class="flaticon-381-networking"></i>
+							<!-- <i class="fas fa-fw fa-tachometer-alt"></i> -->
+							<span class="nav-text">Tableau de bord</span>
+						</a>
+                        <ul aria-expanded="false">
+							<li><a href="#">Modèle Karasek</a></li>
+							<li><a href="#">Modèle Siegrist</a></li>
+							<li><a href="#">Personnalisable</a></li>
+						</ul>
+                    </li>
+
+                    <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+							<i class="fas fa-poll"></i>
+							<span class="nav-text">Configuration Enquêtes</span>
+						</a>
+                        <ul aria-expanded="false">
+							<li><a href="#">QVT</a></li>
+                            <li><a href="#">RPS</a></li>
+                            <li><a href="#">Satisfaction</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+							<i class="flaticon-381-notepad"></i>
+							<span class="nav-text">Questionnaires</span>
+						</a>
+                        <ul aria-expanded="false">
+                            <li><a href="#">QVT</a></li>
+                            <li><a href="#">RPS</a></li>
+                            <li><a href="#">Personnalisable</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+							<i class="fa fa-question-circle"></i>
+							<span class="nav-text">Questions</span>
+						</a>
+                        <ul aria-expanded="false">
+                            <li><a href="#">QVT</a></li>
+                            <li><a href="#">RPS</a></li>
+                            <li><a href="#">Autre</a></li>
+                        </ul>
+                    </li>
+
+					<li>
+                        <a class="ai-icon" aria-expanded="false" href="#">
+							<i class="fas fa-info-circle"></i>
+							<span class="nav-text">Support</span>
+						</a>
+                    </li>
+
+                </ul>
+				
+
+				<div class="copyright">
+					<p><strong>Ethikdo</strong> © <script>document.write(new Date().getFullYear())</script> All Rights Reserved</p>
+					<p>Made by Dieuveille BOUSSA ELLENGA</p>
+				</div>
+			</div>
+        </div>
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+        
+
+
+        {% block content %}
+        {% endblock %}
+
+
+
+        <!--**********************************
+            Footer start
+        ***********************************-->
+        <div class="footer">
+            <div class="copyright">
+                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Dieuveille BOUSSA ELLENGA</a> <script>document.write(new Date().getFullYear())</script></p>
+            </div>
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->
+
+        <!--**********************************
+           Support ticket button start
+        ***********************************-->
+
+        <!--**********************************
+           Support ticket button end
+        ***********************************-->
+
+        
+    </div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <!-- Required vendors -->
+    <script src="{% static 'assets/vendor/global/global.min.js' %}"></script>
+	<script src="{% static 'assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
+    <script src="{% static 'assets/js/custom.min.js' %}"></script>
+	<script src="{% static 'assets/js/deznav-init.js' %}"></script>
+
+
+	{% block javascript %}
+	{% endblock %}
+
+
+</body>
+
+</html>

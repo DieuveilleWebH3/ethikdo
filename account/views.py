@@ -14,8 +14,12 @@ from django.contrib.auth import update_session_auth_hash
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.core.files.storage import FileSystemStorage
 import datetime
+
 from django.core import mail
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, EmailMultiAlternatives
+
+from django import template
+
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -56,8 +60,8 @@ def user_login(request):
                     if user.is_active:
                         login(request, user)
                         
+                        return redirect('login')
                         # return redirect('dashboard')
-                        return redirect('welcome')
                     else:
                         return HttpResponse('Disabled account')
                 else:

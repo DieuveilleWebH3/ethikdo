@@ -88,8 +88,8 @@ COPY ./requirements.txt /root/requirements.txt
 RUN pip install --use-deprecated=legacy-resolver -r /root/requirements.txt
 
 
-# WORKDIR /app
-# COPY . /app
+WORKDIR /app
+COPY . /app
 
 
 CMD ["python", "/app/manage.py", "runserver", "0.0.0.0:8009"]

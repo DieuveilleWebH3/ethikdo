@@ -93,22 +93,6 @@
                         </div>
                     </div>
 
-                    <div class="basic-form">
-                        <div class="form-group">
-                            <label for="departement" id="that_label" class="mb-1 text-white"><strong>Select Department (s) *:</strong></label>
-                            <select multiple class="form-control default-select" id="department" name="department" required>
-                                {% for d in departments %}
-                                    <option value="{{ d.id }}">{{ d.title }}</option>
-                                {% endfor %}
-                            </select>
-                            
-                            <div class="invalid-feedback">
-                                This field is required
-                            </div>
-                        </div>
-                        
-                    </div>
-
                     
                     <div class="form-group">
                         <label for="password" class="mb-1 text-white"><strong>Password *</strong></label>

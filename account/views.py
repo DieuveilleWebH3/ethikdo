@@ -21,7 +21,7 @@ from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django import template
 
 from django.contrib.sites.shortcuts import get_current_site
-from django.utils.encoding import force_bytes, force_text
+from django.utils.encoding import force_bytes, force_text, smart_bytes, smart_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.html import strip_tags
 from django.template.loader import render_to_string 
@@ -37,6 +37,7 @@ def test(request):
 
     }
     return render(request, template_name, context)
+
 
 
 def user_login(request):
@@ -67,13 +68,13 @@ def user_login(request):
                 else:
                     messages.warning(request, "Please enter a correct username and password. Note that both fields may be case-sensitive.")
                     return redirect('login')
-                    # return HttpResponse('Invalid login')
         else:
             form = LoginForm()
             return render(request, 'account/login.html', {'form': form})
 
 
-# def resend_activate(request, user_email):
+
+# to resend the account activation email 
 def resend_activate(user_email):
 
     try:
@@ -97,6 +98,7 @@ def resend_activate(user_email):
         mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
     except User.DoesNotExist:
         return HttpResponse()
+
 
 
 def register(request):
@@ -127,13 +129,12 @@ def register(request):
                     pass
                 
                 if cd['password'] != cd['password2']:
-                    # raise forms.ValidationError('Passwords don\'t match.')
-                    # return cd['password2']
 
                     messages.warning(request, "Unsuccesful registration. Please make sure your passwords match.")
-                    # return redirect('/')
+                    
                     return redirect('register')
                 else:
+                    
                     # Set the chosen password
                     new_user.set_password(
                         user_form.cleaned_data['password'])
@@ -144,27 +145,45 @@ def register(request):
                     # Save the User object
                     new_user.save()
 
-                    current_site = get_current_site(request)
+                    try:
+                        current_site = get_current_site(request)
 
-                    subject = 'Activate Your Account.'
-                    html_message = render_to_string('account/acc_active_emailBad.html', 
-                    {
-                        'user': new_user,
-                        'domain': current_site.domain,
-                        'uid': urlsafe_base64_encode(force_bytes(new_user.pk)),
-                        'token': account_activation_token.make_token(new_user),
-                    })
-                    plain_message = strip_tags(html_message)
-                    from_email = settings.EMAIL_HOST_USER
-                    to = cd['email']
+                        subject = 'Activez votre compte Ethikdo.'
 
-                    mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+                        relativeLink = reverse(
+                            "activate", kwargs={
+                                'uidb64': urlsafe_base64_encode(smart_bytes(new_user.id)),
+                                "token": account_activation_token.make_token(new_user)
+                                }
+                            )   
+                            
+                        absurl = current_site.domain + relativeLink
 
-                    # ('Please confirm your email address to complete the registration and activate your account')
+                        htmltemp = template.loader.get_template('account/account_active_email.html')
+                        plaintext = template.loader.get_template('account/account_active_email.txt')
+
+                        message = {
+                            'domain': current_site.domain,
+                            'absurl': absurl,
+                            'user': new_user,
+                            'uidb64': urlsafe_base64_encode(smart_bytes(new_user.id)),
+                            "token": account_activation_token.make_token(new_user)
+                        }
+
+                        text_content = plaintext.render(message)
+                        html_content = htmltemp.render(message)
+
+                        msg = EmailMultiAlternatives(subject, text_content, 'Ethikdo <d.ellbouss@gmail.com>', [new_user.email], headers = {'Reply-To': 'no-reply@ethikdo.fr'})
+                        msg.attach_alternative(html_content, "text/html")
+                        msg.send()
+
+                    except Exception as e:
+                        print("\n")
+                        print("************************* Exception caught in Register send mail ***************************")
+                        print(e)
+                        pass
                     
-                    # messages.success(request, "You have successfully registered!. You may login now.")
                     return render(request, 'account/register_done.html', {'new_user': new_user})
-                    # return redirect('login')
             else:
 
                 user_form = request.POST
@@ -175,7 +194,6 @@ def register(request):
                     if match:
                         # A user was found with this as a username, raise an error.
                         # raise forms.ValidationError('This email address is already used.')
-
                         messages.warning(request, "This email address is already used.")
 
                         return redirect('register')
@@ -209,8 +227,6 @@ def activate(request, uidb64, token, backend='django.contrib.auth.backends.Model
         user.save()
         login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         
-        # return HttpResponse('Thank you for your email confirmation. Now you can login into your account.')
-
         messages.success(request, "Your Account has been successfully activated ! ")
         return redirect('dashboard')
     else:
@@ -220,10 +236,19 @@ def activate(request, uidb64, token, backend='django.contrib.auth.backends.Model
 @login_required(redirect_field_name='login')
 @require_GET
 def profile(request):
+    user = request.user
+    
     template_name = 'account/profile.html'
+    
     user_form = UserEditForm(instance=request.user)
     pform = PasswordChangeForm(request.user)
-    context = {'user_form': user_form, 'pform': pform}
+    
+    context = {
+        'user': user,
+        'user_form': user_form, 
+        'pform': pform
+        }
+    
     return render(request, template_name, context)
 
 
@@ -233,6 +258,7 @@ def edit(request):
         user_form = UserEditForm(instance=request.user, data=request.POST, files=request.FILES)
         
         if user_form.is_valid(): 
+            
             # we request the user
             user = request.user
 
@@ -259,8 +285,7 @@ def edit(request):
         return redirect('profile')
     else:
         user_form = UserEditForm(instance=request.user)
-        #profile_form = ProfileEditForm(instance=request.user.profile)
-    # return render(request, 'account/edit.html', {'user_form': user_form})
+        
     return redirect('profile')
 
 
@@ -268,13 +293,15 @@ def edit(request):
 def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
+        
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
+            
             messages.success(request, 'Your password was successfully updated!')
             return redirect('change_password')
         else:
-            messages.warning(request, 'Please correct the error below.')
+            messages.warning(request, 'Please correct the error below in chage password.')
             
     return redirect(reverse('profile') + '#navtabs-profile')
 

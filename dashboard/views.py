@@ -38,8 +38,18 @@ def dashboard(request):
     #
     user = request.user
     
+    cards = GiftCard.objects.all()
+    cards_number = len(cards)
+    
+    merchants = User.objects.all().filter(account_type='1')
+    merchants_number = len(merchants)
+    
     context = {
         'user': user,
+        'merchants': merchants,
+        'merchants_number': merchants_number,
+        'cards': cards,
+        'cards_number': cards_number,
         }
         
     return render(request, 'dashboard/dashboard.html', context)

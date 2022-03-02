@@ -19,7 +19,7 @@ class GiftCard(models.Model):
     modified_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return 'CartKado ' + str(self.code) + ' : ' + str(self.amount) + ' €'
+        return 'CartKado ' + str(self.title) + ' : ' + str(self.amount) + ' €'
 
 
 class Debit(models.Model):

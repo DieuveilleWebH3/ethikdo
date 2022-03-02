@@ -20,8 +20,7 @@ class User(AbstractUser):
     
     ACCOUNT_TYPE_CHOICES = ( 
         ('0', 'Administrator'), 
-        ('1', 'Merchant'), 
-		('2', 'Client')
+        ('1', 'Merchant') 
     )
 
     def get_upload_path(instance, filename):

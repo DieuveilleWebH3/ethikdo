@@ -13,12 +13,10 @@ urlpatterns = [
     path('register/', views.register, name='register'),
 
     # we add the URL for the activate view, to allow users to activate their account.
-    # url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.activate, name='activate'),
     path('activate/<uidb64>/<token>/', views.activate, name='activate'),
 
     #  login view
     path('login/', views.user_login, name='login'),
-    # path('login/', auth_views.LoginView.as_view(), name='login'),
 
     # we add the URL for the profile view, to allow users to see their personal info.
     path('profile', views.profile, name="profile"),

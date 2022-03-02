@@ -35,6 +35,13 @@ from django.template.loader import render_to_string
 # @login_required()
 def dashboard(request):
     
-    return True
+    #
+    user = request.user
+    
+    context = {
+        'user': user,
+        }
+        
+    return render(request, 'dashboard/dashboard.html', context)
 
 

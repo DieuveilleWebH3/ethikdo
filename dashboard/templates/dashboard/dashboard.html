@@ -1,0 +1,192 @@
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+
+{% block head_css %}
+    
+	<link rel="stylesheet" href="{% static 'assets/vendor/chartist/css/chartist.min.css' %}">
+	<link href="{% static 'assets/vendor/owl-carousel/owl.carousel.css' %}" rel="stylesheet">
+    
+{% endblock %}
+
+{% block head_javascript %}
+{% endblock %}
+
+
+{% block content %}
+
+
+
+	<!--**********************************
+		Content body start
+	***********************************-->
+	<div class="content-body">
+		<div class="container-fluid">
+			<div class="page-titles">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="javascript:void(0)">Tableau de bord</a></li>
+					<li class="breadcrumb-item active"><a href="javascript:void(0)"> {{ type_enquete }} </a></li>
+				</ol>
+			</div>
+
+			<!-- row -->
+			<div class="row">				
+
+
+				<div class="col-xl-12 col-xxl-12">
+					<div class="row">
+
+						<div class="col-sm-4">
+							<div class="card avtivity-card">
+								<div class="card-body">
+									<div class="media align-items-center">
+										<span class="activity-icon bgl-success mr-md-4 mr-3">
+											<img src="{% static 'assets/images/customer-data.png' %}" width="80" height="80">
+										</span>
+										<div class="media-body">
+											<p class="fs-14 mb-2">Number of Merchant </p>
+											<span class="title text-black font-w600">{{ participation_rate }} %</span>
+										</div>
+									</div>
+									<div class="progress" style="height:5px;">
+										<div class="progress-bar bg-success" style="width: {{ participation_rate }}%; height:5px;" role="progressbar">
+											<span class="sr-only">{{ participation_rate }}% Complete</span>
+										</div>
+									</div>
+								</div>
+								<div class="effect bg-success"></div>
+							</div>
+						</div>
+
+						<div class="col-sm-4">
+							<div class="card avtivity-card">
+								<div class="card-body">
+									<div class="media align-items-center">
+										<span class="activity-icon bgl-secondary  mr-md-4 mr-3">
+											<img src="{% static 'assets/images/icons8-bonds-96.png' %}" height="70" alt="">
+										</span>
+										<div class="media-body">
+											<p class="fs-14 mb-2">Number of Gift Cards </p>
+											<span class="title text-black font-w600">{{ enquete_number }}</span>
+										</div>
+									</div>
+									<div class="progress" style="height:5px;">
+										<div class="progress-bar bg-secondary" style="width: 50%; height:5px;" role="progressbar">
+											<span class="sr-only">{{ enquete_number }}</span>
+										</div>
+									</div>
+								</div>
+								<div class="effect bg-secondary"></div>
+							</div>
+						</div>
+
+						<div class="col-sm-4">
+							<div class="card avtivity-card">
+								<div class="card-body">
+									<div class="media align-items-center">
+										<span class="activity-icon bgl-danger mr-md-4 mr-3">
+											<img src="{% static 'assets/images/pie-chart.png' %}" height="80" alt="">
+										</span>
+										<div class="media-body">
+											<p class="fs-14 mb-2">Nombre de Départements</p>
+											<span class="title text-black font-w600">{{department_number}}</span>
+										</div>
+									</div>
+									<div class="progress" style="height:5px;">
+										<div class="progress-bar bg-danger" style="width: 75%; height:5px;" role="progressbar">
+											<span class="sr-only">{{department_number}}</span>
+										</div>
+									</div>
+								</div>
+								<div class="effect bg-danger"></div>
+							</div>
+						</div>
+						
+					</div>
+
+					<div class="row align-items-center">
+						<div class="col-xl-5 col-xxl-12 mr-auto">
+							<a href="#" class="btn btn-outline-primary btn-md mb-2">May 28th, 2020<i class="las la-calendar ml-3 scale5"></i></a>
+							<svg class="ml-2 mr-2" width="14" height="3" viewBox="0 0 14 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<rect width="14" height="3" rx="1.5" fill="#2B2B2B"/>
+							</svg>
+							<a href="#" class="btn btn-outline-primary mr-3 btn-md  mb-2">June 28th, 2020<i class="las la-calendar ml-3 scale5"></i></a>
+							
+							<a href="#" class="btn btn-primary btn-md mb-2">Filtrer<i class="las la-angle-right ml-3 scale5"></i></a>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+			<br>
+
+			<div class="col-12">
+				<div class="row">
+					
+				</div>
+
+			</div>
+
+        </div>
+	</div>
+
+	<!--**********************************
+		Content body end
+	***********************************-->
+
+
+{% endblock %}
+
+{% block javascript %}
+
+    <!-- Chart ChartJS plugin files -->
+    <script src="{% static 'assets/vendor/chart.js/Chart.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins-init/chartjs-init.js' %}"></script>
+
+	<script src="{% static 'assets/vendor/owl-carousel/owl.carousel.js' %}"></script>
+	
+	<!-- Chart piety plugin files -->
+	<script src="{% static 'assets/vendor/peity/jquery.peity.min.js' %}"></script>
+	
+	<!-- Apex Chart -->
+	<script src="{% static 'assets/vendor/apexchart/apexchart.js' %}"></script>
+	
+	<!-- Dashboard 1 -->
+	<script src="{% static 'assets/js/dashboard/dashboard-1.js' %}"></script>
+
+
+	<!-- Chart Chartist plugin files -->
+    <script src="{% static 'assets/vendor/chartist/js/chartist.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins-init/chartist-init.js' %}"></script>
+
+
+	<!-- Chart Amcharts -->
+	<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+	<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+	<script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+
+
+	<!-- Chart Highcharts -->
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/highcharts-more.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	<script src="https://code.highcharts.com/modules/export-data.js"></script>
+	<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+	<script>
+
+		// ***************************************************************************************************************
+
+	</script>
+
+{% endblock %}
+	

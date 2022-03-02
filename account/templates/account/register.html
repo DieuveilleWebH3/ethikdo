@@ -140,12 +140,6 @@
                 }
             };
 
-            var the_department = document.getElementById('department');
-            console.log(the_department.value);  // undefined
-            // console.log(the_department.text);  // undefined
-            // console.log(the_department.textContent); // shows the options in it 
-            // console.log(the_department.options[the_department.selectedIndex].text);
-
             // Example starter JavaScript for disabling form submissions if there are invalid fields
             (function () {
                 'use strict'
@@ -162,21 +156,6 @@
                             event.preventDefault()
                             event.stopPropagation()
                         }
-
-                        if ( (!the_department) || (the_department.value == '') || (the_department.value == 'Nothing selected') )  
-                        {
-                            the_department.style.border = "thin solid red";
-                            // document.getElementById('that_label').getAttribute('class');
-                            document.getElementById('that_label').removeAttribute("class");
-                            document.getElementById('that_label').setAttribute('class', 'mb-1');
-                            document.getElementById('that_label').style.color = "red";
-
-                            event.preventDefault();
-                            event.stopPropagation()
-                        }
-
-                        document.getElementById('that_label').removeAttribute("class");
-                        document.getElementById('that_label').setAttribute('class', 'mb-1 text-white');
 
                         form.classList.add('was-validated')
                     }, false)

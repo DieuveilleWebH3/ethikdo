@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'account',
     'crispy_forms',
     'dashboard',
+    'cartkado',
 ]
 
 MIDDLEWARE = [

@@ -5,7 +5,7 @@
 
 {% load crispy_forms_tags %}
 
-{% block title %}Tableau de bord{% endblock %}
+{% block title %}Dashboard{% endblock %}
 
 
 {% block head_css %}
@@ -49,7 +49,7 @@
 											<img src="{% static 'assets/images/customer-data.png' %}" width="80" height="80">
 										</span>
 										<div class="media-body">
-											<p class="fs-14 mb-2">Number of Merchant </p>
+											<p class="fs-14 mb-2">Number of Merchants</p>
 											<span class="title text-black font-w600">{{ participation_rate }} %</span>
 										</div>
 									</div>
@@ -82,28 +82,6 @@
 									</div>
 								</div>
 								<div class="effect bg-secondary"></div>
-							</div>
-						</div>
-
-						<div class="col-sm-4">
-							<div class="card avtivity-card">
-								<div class="card-body">
-									<div class="media align-items-center">
-										<span class="activity-icon bgl-danger mr-md-4 mr-3">
-											<img src="{% static 'assets/images/pie-chart.png' %}" height="80" alt="">
-										</span>
-										<div class="media-body">
-											<p class="fs-14 mb-2">Nombre de Départements</p>
-											<span class="title text-black font-w600">{{department_number}}</span>
-										</div>
-									</div>
-									<div class="progress" style="height:5px;">
-										<div class="progress-bar bg-danger" style="width: 75%; height:5px;" role="progressbar">
-											<span class="sr-only">{{department_number}}</span>
-										</div>
-									</div>
-								</div>
-								<div class="effect bg-danger"></div>
 							</div>
 						</div>
 						

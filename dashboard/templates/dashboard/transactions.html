@@ -1,0 +1,355 @@
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block title %} Transactions {% endblock %}
+
+
+{% block head_css %}
+    
+    <!-- Datatable -->
+    <link href="{% static 'assets/vendor/datatables/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+    
+{% endblock %}
+
+{% block head_javascript %}
+{% endblock %}
+
+
+{% block content %}
+
+        <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+            <div class="container-fluid">
+                <div class="page-titles">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item active"><a href="javascript:void(0)">Transactions</a></li>
+					</ol>
+                </div>
+                <!-- row -->
+
+
+                {% if messages %}
+                    {% for message in messages %}
+                    <div style="text-align: center;" {% if message.tags == 'warning' %} class="alert alert-danger solid alert-dismissible fade show" {% else %} class="alert alert-{{ message.tags }} solid alert-dismissible fade show" {% endif %} role="alert">
+                        {{ message|safe }}
+                        <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Transactions</h4>
+                            </div>
+
+
+                            <div class="card-body">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#all">
+                                            <span>
+                                                <i class="ti-home"> All </i>
+                                            </span>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#success">
+                                            <span>
+                                                <i class="ti-user"> Succeded </i>
+                                            </span>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#fail">
+                                            <span>
+                                                <i class="ti-email"> Failed </i>
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                <!-- Tab panes -->
+                                <div class="tab-content tabcontent-border">
+                                    <div class="tab-pane fade show active" id="all" role="tabpanel">
+                                        <div class="pt-4">
+                                        </div>
+
+
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table id="example5" class="display min-w850">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input type="checkbox" class="custom-control-input" id="checkAll" required="">
+                                                                    <label class="custom-control-label" for="checkAll"></label>
+                                                                </div>
+                                                            </th>
+                                                            <th>Title</th>
+                                                            <th>Departments</th>
+                                                            <th>Status</th>
+                                                            <th>Start Date</th>
+                                                            <th>End Date</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% if enquetes %}
+                                                            {% for e in enquetes %}
+                                                            <tr>
+                                                                
+                                                                <td>
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="customCheckBox2" required="">
+                                                                        <label class="custom-control-label" for="customCheckBox2"></label>
+                                                                    </div>
+                                                                </td>
+                                                                <td>{{ e.title }}</td>
+                                                                <td>{% for d in e.department.all %} {{ d.title }}, {% endfor %}</td>
+
+                                                                <td>
+                                                                    {% if e.status == '0' %}
+                                                                        <span class="badge light badge-warning">
+                                                                            <i class="fa fa-circle text-warning mr-1"></i>
+                                                                    {% elif e.status == '1' %}
+                                                                        <span class="badge light badge-success">
+                                                                            <i class="fa fa-circle text-success mr-1"></i>
+                                                                    {% else %}
+                                                                        <span class="badge light badge-danger">
+                                                                            <i class="fa fa-circle text-danger mr-1"></i>
+                                                                    {% endif %}
+                                                                        {{ e.get_status_display }}
+                                                                    </span>
+                                                                </td>
+                                                                
+                                                                <td>{{ e.start_date }}</td>
+                                                                <td>{{ e.end_date }}</td>
+                                                                
+                                                                <td>
+                                                                    <div class="dropdown ml-auto text-right">
+                                                                        <div class="btn-link" data-toggle="dropdown">
+                                                                            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"></rect><circle fill="#000000" cx="5" cy="12" r="2"></circle><circle fill="#000000" cx="12" cy="12" r="2"></circle><circle fill="#000000" cx="19" cy="12" r="2"></circle></g></svg>
+                                                                        </div>
+                                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                                            <a class="dropdown-item" href="#">Etendre la durée </a>
+                                                                            <a class="dropdown-item" href="#">Relancer </a>
+                                                                            <a class="dropdown-item" href="{% url 'enquete_detail' e.slug %}">Voir les détails</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>												
+                                                            </tr>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                        
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                                
+				                    </div>
+
+
+                                    <div class="tab-pane fade" id="success" role="tabpanel">
+                                        <div class="pt-4">
+                                           
+                                        </div>
+
+
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table id="example5" class="display min-w850">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input type="checkbox" class="custom-control-input" id="checkAll" required="">
+                                                                    <label class="custom-control-label" for="checkAll"></label>
+                                                                </div>
+                                                            </th>
+                                                            <th>Title</th>
+                                                            <th>Departments</th>
+                                                            <th>Status</th>
+                                                            <th>Start Date</th>
+                                                            <th>End Date</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% if enquetes_en_attente %}
+                                                            {% for e in enquetes_en_attente %}
+                                                            <tr>
+                                                                
+                                                                <td>
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="customCheckBox2" required="">
+                                                                        <label class="custom-control-label" for="customCheckBox2"></label>
+                                                                    </div>
+                                                                </td>
+                                                                <td>{{ e.title }}</td>
+                                                                <td>{% for d in e.department.all %} {{ d.title }}, {% endfor %}</td>
+
+                                                                <td>
+                                                                    {% if e.status == '0' %}
+                                                                        <span class="badge light badge-warning">
+                                                                            <i class="fa fa-circle text-warning mr-1"></i>
+                                                                    {% elif e.status == '1' %}
+                                                                        <span class="badge light badge-success">
+                                                                            <i class="fa fa-circle text-success mr-1"></i>
+                                                                    {% else %}
+                                                                        <span class="badge light badge-danger">
+                                                                            <i class="fa fa-circle text-danger mr-1"></i>
+                                                                    {% endif %}
+                                                                        {{ e.get_status_display }}
+                                                                    </span>
+                                                                </td>
+                                                                
+                                                                <td>{{ e.start_date }}</td>
+                                                                <td>{{ e.end_date }}</td>
+                                                                
+                                                                <td>
+                                                                    <div class="dropdown ml-auto text-right">
+                                                                        <div class="btn-link" data-toggle="dropdown">
+                                                                            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"></rect><circle fill="#000000" cx="5" cy="12" r="2"></circle><circle fill="#000000" cx="12" cy="12" r="2"></circle><circle fill="#000000" cx="19" cy="12" r="2"></circle></g></svg>
+                                                                        </div>
+                                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                                            <a class="dropdown-item" href="#">Etendre la durée </a>
+                                                                            <a class="dropdown-item" href="#">Relancer </a>
+                                                                            <a class="dropdown-item" href="{% url 'enquete_detail' e.slug %}">Voir les détails</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>												
+                                                            </tr>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                        
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="tab-pane fade" id="fail" role="tabpanel">
+                                        <div class="pt-4">
+                                           
+                                        </div>
+
+
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table id="example5" class="display min-w850">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input type="checkbox" class="custom-control-input" id="checkAll" required="">
+                                                                    <label class="custom-control-label" for="checkAll"></label>
+                                                                </div>
+                                                            </th>
+                                                            <th>Title</th>
+                                                            <th>Departments</th>
+                                                            <th>Status</th>
+                                                            <th>Start Date</th>
+                                                            <th>End Date</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% if enquetes_en_cours %}
+                                                            {% for e in enquetes_en_cours %}
+                                                            <tr>
+                                                                
+                                                                <td>
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="customCheckBox2" required="">
+                                                                        <label class="custom-control-label" for="customCheckBox2"></label>
+                                                                    </div>
+                                                                </td>
+                                                                <td>{{ e.title }}</td>
+                                                                <td>{% for d in e.department.all %} {{ d.title }}, {% endfor %}</td>
+
+                                                                <td>
+                                                                    {% if e.status == '0' %}
+                                                                        <span class="badge light badge-warning">
+                                                                            <i class="fa fa-circle text-warning mr-1"></i>
+                                                                    {% elif e.status == '1' %}
+                                                                        <span class="badge light badge-success">
+                                                                            <i class="fa fa-circle text-success mr-1"></i>
+                                                                    {% else %}
+                                                                        <span class="badge light badge-danger">
+                                                                            <i class="fa fa-circle text-danger mr-1"></i>
+                                                                    {% endif %}
+                                                                        {{ e.get_status_display }}
+                                                                    </span>
+                                                                </td>
+                                                                
+                                                                <td>{{ e.start_date }}</td>
+                                                                <td>{{ e.end_date }}</td>
+                                                                
+                                                                <td>
+                                                                    <div class="dropdown ml-auto text-right">
+                                                                        <div class="btn-link" data-toggle="dropdown">
+                                                                            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"></rect><circle fill="#000000" cx="5" cy="12" r="2"></circle><circle fill="#000000" cx="12" cy="12" r="2"></circle><circle fill="#000000" cx="19" cy="12" r="2"></circle></g></svg>
+                                                                        </div>
+                                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                                            <a class="dropdown-item" href="#">Etendre la durée </a>
+                                                                            <a class="dropdown-item" href="#">Relancer </a>
+                                                                            <a class="dropdown-item" href="{% url 'enquete_detail' e.slug %}">Voir les détails</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>												
+                                                            </tr>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                        
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+
+
+{% endblock %}
+
+
+{% block javascript %}
+
+    <!-- Datatable -->
+    <script src="{% static 'assets/vendor/datatables/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins-init/datatables.init.js' %}"></script>
+
+{% endblock %}
+	

@@ -9,6 +9,7 @@ from django.contrib import messages
 from main import settings
 from .models import *
 # from .forms import *
+from cartkado.models import *
 from account.models import *
 
 from django.contrib.auth.forms import PasswordChangeForm
@@ -51,7 +52,7 @@ def dashboard(request):
         'merchants': merchants,
         'merchants_number': merchants_number,
         'cards': cards,
-        # 'cards_number': cards_number,
+        'cards_number': len(cards),
         }
         
     return render(request, 'dashboard/dashboard.html', context)

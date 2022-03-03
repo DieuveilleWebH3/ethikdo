@@ -15,7 +15,9 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.core.files.storage import FileSystemStorage
+
 import datetime
+from datetime import date, datetime
 
 from django.core import mail
 from django.core.mail import EmailMessage, EmailMultiAlternatives
@@ -76,11 +78,14 @@ def contact(request):
 def check_gift_card_exist(request):
     card_title = request.POST.get("card_title")
     card_code = request.POST.get("card_code")
-    card_obj = GiftCard.objects.all().filter(code=card_code).exists()
+    
+    try:
+        card_obj = GiftCard.objects.all().filter(code=card_code).exists()
 
-    if card_obj:
-        return HttpResponse(True)
-    else:
+        if card_obj:
+            return HttpResponse(True)
+    except GiftCard.DoesNotExist:
+        # 
         return HttpResponse(False)
 
 
@@ -120,13 +125,8 @@ def debit_card(request):
                 )
                 debit.save()
                 
-
                 return redirect(reverse("debit_card"))
-            except Exception as e:
-                
-                print("\n")
-                print("******************** Exception gotten in debit card ********************")
-                print(e)
+            except GiftCard.DoesNotExist:
                 
                 messages.warning(request, "Failed to Complete Transaction")
 
@@ -142,7 +142,7 @@ def debit_card(request):
 
 
 
-
+@login_required(redirect_field_name='login')
 def transaction(request):
 
     user_allowed = request.user
@@ -177,17 +177,17 @@ def transaction(request):
         
 
 
+@login_required(redirect_field_name='login')
 def add_card(request):
     user_allowed = request.user
 
     if user_allowed.is_authenticated:
 
-        if user_allowed.user_type == "1":
+        if user_allowed.account_type == "O" or user_allowed.is_superuser:
 
             if request.method == 'POST':
 
-                card_amount = request.POST.get("card_amount")
-                card_amount = float(card_amount)
+                card_amount = float(request.POST.get("card_amount"))
 
                 try:
                     card_count = GiftCard.objects.all().count()
@@ -208,31 +208,28 @@ def add_card(request):
                     card_model.save()
                     messages.success(request, "Successfully Added Gift Card")
 
-                    return redirect(reverse("main:add_card"))
+                    return redirect(reverse("add_card"))
                 except Exception as e:
+                    print("\n")
+                    print("*************** Exception gotten in add card ***************")
                     print(e)
                     messages.error(request, "Failed To Add Gift Card")
 
-                    return redirect(reverse("main:add_card"))
+                    return redirect(reverse("add_card"))
 
-            return render(request, "main/admin/add_card.html")
+            return render(request, "dashboard/add_card.html")
 
-        elif user_allowed.user_type == "2":
-
-            return redirect('main:marchand_home')
-
-        else:
-
-            return redirect('main:index')
-    else:
-        return redirect('main:admin_login')
+    return redirect('dashboard')
 
 
+
+# 
+@login_required()
 def manage_card(request):
     user = request.user
 
     if user.is_authenticated:
-        if user.user_type == "1":
+        if user.account_type == "0":
 
             gift_card = GiftCard.objects.all()
             gift_card_count = gift_card.count()
@@ -244,13 +241,11 @@ def manage_card(request):
                           }
                           )
 
-        elif user.user_type == "2":
-            return redirect('main:marchand_home')
+        elif user.account_type == "1":
+            
+            return redirect('dashboard')
 
-        else:
-            return redirect('main:index')
-    else:
-        return render(request, "main/admin/index.html")
+    return redirect('dashboard')
 
 
 
@@ -269,10 +264,9 @@ def top_up_card(request):
                 top_amount = request.POST.get("top_amount")
                 top_amount = float(top_amount)
 
-                gift_card = GiftCard.objects.get(id=card_id)
-                card_amount = gift_card.amount
-
                 try:
+                    gift_card = GiftCard.objects.get(id=card_id)
+                    card_amount = gift_card.amount
 
                     card_amount = card_amount + top_amount
 
@@ -280,11 +274,12 @@ def top_up_card(request):
 
                     messages.success(request, "Transaction Completed")
 
-                    return redirect(reverse("main:top_up_card"))
-                except:
+                    return redirect(reverse("top_up_card"))
+                except GiftCard.DoesNotExist:
+                    
                     messages.error(request, "Failed to Complete Transaction.")
 
-                    return redirect(reverse("main:top_up_card"))
+                    return redirect(reverse("top_up_card"))
 
             context = {
                 'gift_card': GiftCard.objects.all(),

@@ -229,12 +229,12 @@ def manage_card(request):
     user = request.user
 
     if user.is_authenticated:
-        if user.account_type == "0":
+        if user.account_type == "0" or user.is_superuser:
 
             gift_card = GiftCard.objects.all()
             gift_card_count = gift_card.count()
 
-            return render(request, "main/admin/manage_card.html",
+            return render(request, "dashboard/cards.html",
                           {
                               "gift_card": gift_card,
                               "gift_card_count": gift_card_count,

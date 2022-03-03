@@ -1,0 +1,151 @@
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block title %} Cards {% endblock %}
+
+
+{% block head_css %}
+    
+	<link rel="stylesheet" href="{% static 'assets/vendor/chartist/css/chartist.min.css' %}">
+	<link href="{% static 'assets/vendor/owl-carousel/owl.carousel.css' %}" rel="stylesheet">
+    
+{% endblock %}
+
+{% block head_javascript %}
+{% endblock %}
+
+
+{% block content %}
+
+
+
+	<!--**********************************
+		Content body start
+	***********************************-->
+	<div class="content-body">
+		<div class="container-fluid">
+			<div class="page-titles">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item active"><a href="javascript:void(0)">Cards</a></li>
+				</ol>
+			</div>
+
+
+            <div class="col-xxl-10 text-center" style="text-align: center; margin: auto;">
+                
+                <!-- row -->
+                <div class="row">	
+                    
+                    <div class="col-xl-4 col-lg-12">
+                        <div class="card">
+
+                            <!-- ***** Features Small Item Start ***** -->
+                            <div class="card-body">
+                                <div class="features-small-item" style="text-align: center;">
+                                    <div style="text-align: center;">
+                                        <i><img src="{% static 'assets/images/icons8-bonds-96.png' %}" height="80" alt=""></i>
+                                    </div>
+                                    <h5 class="features-title" style="text-align: center;">{{ card.title }}</h5>
+
+                                    <div style="height: 10px; margin-top: 10px; margin-bottom: 10px;"></div>
+
+                                    <div id="button-bar" class="text-center">
+                                        <a href="#" class="badge badge-primary light" id="small">Debit</a>
+                                        <a href="#" class="badge badge-primary light" id="large">TopUp</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ***** Features Small Item End ***** -->
+
+                        </div>
+                    </div>
+
+                    
+                    <div class="col-xl-4 col-lg-12">
+                        <div class="card">
+
+                            <!-- ***** Features Small Item Start ***** -->
+                            <div class="card-body">
+                                <div class="features-small-item" style="text-align: center;">
+                                    <div style="text-align: center;">
+                                        <i><img src="{% static 'assets/images/icons8-bonds-96.png' %}" height="80" alt=""></i>
+                                    </div>
+                                    <h5 class="features-title" style="text-align: center;">{{ card.title }}</h5>
+
+                                    <div style="height: 10px; margin-top: 10px; margin-bottom: 10px;"></div>
+
+                                    <div id="button-bar" class="text-center">
+                                        <a href="#" class="badge badge-primary light" id="small">Debit</a>
+                                        <a href="#" class="badge badge-primary light" id="large">TopUp</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ***** Features Small Item End ***** -->
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-xl-4 col-lg-12">
+                        <div class="card">
+
+                            <!-- ***** Features Small Item Start ***** -->
+                            <div class="card-body">
+                                <div class="features-small-item" style="text-align: center;">
+                                    <div style="text-align: center;">
+                                        <i><img src="{% static 'assets/images/icons8-bonds-96.png' %}" height="80" alt=""></i>
+                                    </div>
+                                    <h5 class="features-title" style="text-align: center;">{{ card.title }}</h5>
+
+                                    <div style="height: 10px; margin-top: 10px; margin-bottom: 10px;"></div>
+
+                                    <div id="button-bar" class="text-center">
+                                        <a href="#" class="badge badge-primary light" id="small">Debit</a>
+                                        <a href="#" class="badge badge-primary light" id="large">TopUp</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ***** Features Small Item End ***** -->
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+	</div>
+
+	<!--**********************************
+		Content body end
+	***********************************-->
+
+
+{% endblock %}
+
+{% block javascript %}
+
+	<script src="{% static 'assets/vendor/owl-carousel/owl.carousel.js' %}"></script>
+	
+	<!-- Chart piety plugin files -->
+	<script src="{% static 'assets/vendor/peity/jquery.peity.min.js' %}"></script>
+	
+	<!-- Apex Chart -->
+	<script src="{% static 'assets/vendor/apexchart/apexchart.js' %}"></script>
+	
+	<!-- Dashboard 1 -->
+	<script src="{% static 'assets/js/dashboard/dashboard-1.js' %}"></script>
+
+
+	<script>
+
+		// ***************************************************************************************************************
+
+	</script>
+
+{% endblock %}
+	

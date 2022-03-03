@@ -18,7 +18,7 @@ urlpatterns = [
     
     # path('add/card', views.add_card, name="add_card"),
     
-    # path('manage/card', views.manage_card, name="manage_card"),
+    path('manage/card/', views.manage_card, name="manage_card"),
     
     # path('manage/users', views.manage_users, name="manage_users"),
     

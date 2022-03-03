@@ -238,7 +238,10 @@ def activate(request, uidb64, token, backend='django.contrib.auth.backends.Model
 def profile(request):
     user = request.user
     
-    template_name = 'account/profile.html'
+    if user.account_type == '1':
+        template_name = 'account/profile_normal.html'
+    else :
+        template_name = 'account/profile.html'
     
     user_form = UserEditForm(instance=request.user)
     pform = PasswordChangeForm(request.user)

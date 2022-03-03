@@ -144,7 +144,7 @@ def debit_card(request):
 
 
 @login_required(redirect_field_name='login')
-def transaction(request):
+def manage_transaction(request):
 
     user_allowed = request.user
 
@@ -160,7 +160,7 @@ def transaction(request):
                 "user": user_allowed,
             }
 
-            return render(request, "dashboard/transaction.html", context)
+            return render(request, "dashboard/transactions.html", context)
 
         elif user_allowed.account_type == "1":
 
@@ -171,7 +171,7 @@ def transaction(request):
                 "debit": debit,
             }
 
-            return render(request, "dashboard/transaction.html", context)
+            return render(request, "dashboard/transactions.html", context)
 
 
     return redirect("dashboard")

@@ -100,17 +100,17 @@
                                                                     <label class="custom-control-label" for="checkAll"></label>
                                                                 </div>
                                                             </th>
-                                                            <th>Title</th>
-                                                            <th>Departments</th>
+                                                            <th>Card</th>
+                                                            <th>User</th>
+                                                            <th>Amount</th>
                                                             <th>Status</th>
-                                                            <th>Start Date</th>
-                                                            <th>End Date</th>
+                                                            <th>Date</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {% if enquetes %}
-                                                            {% for e in enquetes %}
+                                                        {% if debit %}
+                                                            {% for bit in debit %}
                                                             <tr>
                                                                 
                                                                 <td>
@@ -181,17 +181,17 @@
                                                                     <label class="custom-control-label" for="checkAll"></label>
                                                                 </div>
                                                             </th>
-                                                            <th>Title</th>
-                                                            <th>Departments</th>
+                                                            <th>Card</th>
+                                                            <th>User</th>
+                                                            <th>Amount</th>
                                                             <th>Status</th>
-                                                            <th>Start Date</th>
-                                                            <th>End Date</th>
+                                                            <th>Date</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {% if enquetes_en_attente %}
-                                                            {% for e in enquetes_en_attente %}
+                                                        {% if debit_success %}
+                                                            {% for debit in debit_success %}
                                                             <tr>
                                                                 
                                                                 <td>
@@ -261,17 +261,17 @@
                                                                     <label class="custom-control-label" for="checkAll"></label>
                                                                 </div>
                                                             </th>
-                                                            <th>Title</th>
-                                                            <th>Departments</th>
+                                                            <th>Card</th>
+                                                            <th>User</th>
+                                                            <th>Amount</th>
                                                             <th>Status</th>
-                                                            <th>Start Date</th>
-                                                            <th>End Date</th>
+                                                            <th>Date</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {% if enquetes_en_cours %}
-                                                            {% for e in enquetes_en_cours %}
+                                                        {% if debit_fail %}
+                                                            {% for debit in debit_fail %}
                                                             <tr>
                                                                 
                                                                 <td>
@@ -280,8 +280,8 @@
                                                                         <label class="custom-control-label" for="customCheckBox2"></label>
                                                                     </div>
                                                                 </td>
-                                                                <td>{{ e.title }}</td>
-                                                                <td>{% for d in e.department.all %} {{ d.title }}, {% endfor %}</td>
+                                                                <td>{{ debit.card }}</td>
+                                                                <td>{{ debit.user }}</td>
 
                                                                 <td>
                                                                     {% if e.status == '0' %}

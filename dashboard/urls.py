@@ -22,7 +22,7 @@ urlpatterns = [
     
     # path('manage/users', views.manage_users, name="manage_users"),
     
-    # path('manage/transaction', views.manage_transaction, name="manage_transaction"),
+    path('manage/transaction/', views.manage_transaction, name="manage_transaction"),
     
     # path('topup/card', views.top_up_card, name="top_up_card"),
 
